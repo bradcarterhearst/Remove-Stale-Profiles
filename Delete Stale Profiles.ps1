@@ -1,7 +1,7 @@
      # Imports
 Import-Module ActiveDirectory
 
-$computer = "KOAT-scanb"
+$computer = "localhost"
 #Test network connection before making connection
 If ($computer -ne $Env:Computername) {
     If (!(Test-Connection -comp $computer -count 1 -quiet)) {
