@@ -1,7 +1,7 @@
-﻿     # Imports
+     # Imports
 Import-Module ActiveDirectory
 
-$computer = "KOAT-ITUTIL2"
+$computer = "KOAT-scanb"
 #Test network connection before making connection
 If ($computer -ne $Env:Computername) {
     If (!(Test-Connection -comp $computer -count 1 -quiet)) {
@@ -20,7 +20,7 @@ Catch {
     Break
     }    
 
-#$users.localpath
+$users.localpath
 $num_users = $users.count
 
 For ($i=0;$i -lt $num_users; $i++) {
@@ -28,14 +28,12 @@ For ($i=0;$i -lt $num_users; $i++) {
     # check if the user is a an active AD member, if not delete the profile.
     try     {
             $userBaseName = (New-Object System.Security.Principal.SecurityIdentifier($users[$i].SID)).Translate([System.Security.Principal.NTAccount]).Value.Split("\")[-1]
-            if (-Not ((Get-ADUser $userBaseName).Enabled)) {
-                Write-Host "Removing AD user:  "$userBaseName}
-                $users[$i] | Remove-WmiObject
-            }
+            if (-Not ((Get-ADUser $userBaseName).Enabled))
+                {
+                    Write-Host "Removing AD user:  "$userBaseName
+                    $users[$i] | Remove-WmiObject}
+                }
     catch   {
              Continue
             }
 }
-
-
-
